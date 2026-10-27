@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f46e5" />
+  <title>Tuition Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- ===== HOME TAB ===== -->
+    <section class="tab-page active" id="tab-home">
+      <header class="page-header">
+        <div class="brand-row">
+          <div class="brand-logo">TT</div>
+          <div>
+            <h1 class="brand-title">Tuition Tracker</h1>
+            <p class="brand-sub">Admin Console</p>
+          </div>
+          <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode">
+            <span class="ms" id="dark-icon">dark_mode</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="welcome-card">
+        <p class="welcome-label">Welcome back</p>
+        <h2 class="welcome-msg" id="welcome-msg"></h2>
+        <p class="welcome-date" id="welcome-date"></p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card stat-total" data-tilt>
+          <div class="stat-icon"><span class="ms">group</span></div>
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card stat-present" data-tilt>
+          <div class="stat-icon"><span class="ms">check_circle</span></div>
+          <div class="stat-value" id="stat-present">0</div>
+          <div class="stat-label">Present Today</div>
+        </div>
+        <div class="stat-card stat-absent" data-tilt>
+          <div class="stat-icon"><span class="ms">cancel</span></div>
+          <div class="stat-value" id="stat-absent">0</div>
+          <div class="stat-label">Absent Today</div>
+        </div>
+        <div class="stat-card stat-fee" data-tilt>
+          <div class="stat-icon"><span class="ms">account_balance_wallet</span></div>
+          <div class="stat-value" id="stat-fee">0</div>
+          <div class="stat-label">Fee Pending</div>
+        </div>
+      </div>
+
+      <div class="home-quick">
+        <button class="quick-btn" data-goto="tab-attendance">
+          <span class="quick-icon"><span class="ms">edit_calendar</span></span>
+          <span>Take Attendance</span>
+          <span class="quick-arrow"><span class="ms">arrow_forward</span></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== ATTENDANCE TAB ===== -->
+    <section class="tab-page" id="tab-attendance">
+      <header class="page-header">
+        <div class="brand-row">
+          <div class="brand-logo">TT</div>
+          <div>
+            <h1 class="brand-title">Attendance</h1>
+            <p class="brand-sub">Mark your students</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="date-switcher">
+        <button class="date-arrow" id="date-prev" aria-label="Previous day"><span class="ms">chevron_left</span></button>
+        <div class="date-display" id="date-display">
+          <span class="date-main" id="date-main"></span>
+          <span class="date-sub" id="date-sub"></span>
+        </div>
+        <button class="date-arrow" id="date-next" aria-label="Next day"><span class="ms">chevron_right</span></button>
+        <input type="date" id="date-picker" aria-label="Pick date" />
+      </div>
+      <button class="today-btn" id="today-btn">Today</button>
+
+      <div class="attendance-table">
+        <div class="at-row at-head">
+          <div class="at-name">Student</div>
+          <div class="at-col at-am" data-col="am">
+            <span class="col-dot col-dot-am"></span>
+            <span>AM</span>
+          </div>
+          <div class="at-col at-pm" data-col="pm">
+            <span class="col-dot col-dot-pm"></span>
+            <span>PM</span>
+          </div>
+        </div>
+        <div class="at-body" id="at-body"></div>
+      </div>
+
+      <!-- ===== WEEKLY ATTENDANCE ===== -->
+      <div class="week-section">
+        <div class="week-nav">
+          <button class="date-arrow" id="week-prev" aria-label="Previous week"><span class="ms">chevron_left</span></button>
+          <div class="date-display" id="week-display">
+            <span class="date-main" id="week-main"></span>
+            <span class="date-sub" id="week-sub"></span>
+          </div>
+          <button class="date-arrow" id="week-next" aria-label="Next week"><span class="ms">chevron_right</span></button>
+        </div>
+        <button class="today-btn" id="week-today">This Week</button>
+        <div class="week-table-wrap" id="week-table-wrap"></div>
+      </div>
+    </section>
+
+    <!-- ===== STUDENTS TAB ===== -->
+    <section class="tab-page" id="tab-students">
+      <header class="page-header">
+        <div class="brand-row">
+          <div class="brand-logo">TT</div>
+          <div>
+            <h1 class="brand-title">Students</h1>
+            <p class="brand-sub">Manage your students</p>
+          </div>
+        </div>
+      </header>
+
+      <button class="add-student-full" id="add-student-trigger">
+        <span class="asf-icon"><span class="ms">person_add</span></span>
+        <span>Add Student</span>
+      </button>
+
+      <div class="search-sort-row">
+        <div class="search-box">
+          <span class="sb-icon"><span class="ms">search</span></span>
+          <input type="text" id="student-search" class="sb-input" placeholder="Search students..." autocomplete="off" />
+          <button class="sb-clear" id="search-clear" hidden><span class="ms">close</span></button>
+        </div>
+        <button class="sort-pill" id="sort-pill">A–Z</button>
+      </div>
+
+      <div class="class-chips" id="class-chips" hidden></div>
+
+      <div class="students-list" id="students-list"></div>
+
+      <div class="fee-save-bar" id="fee-save-bar" hidden>
+        <span class="fsb-icon"><span class="ms">save</span></span>
+        <span class="fsb-msg" id="fee-save-msg">Fee changes</span>
+        <div class="fsb-actions">
+          <button class="fsb-btn fsb-discard" id="fee-discard-btn">Discard</button>
+          <button class="fsb-btn fsb-save" id="fee-save-btn">Save</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REPORTS TAB ===== -->
+    <section class="tab-page" id="tab-fees">
+      <header class="page-header">
+        <div class="brand-row">
+          <div class="brand-logo">TT</div>
+          <div>
+            <h1 class="brand-title">Reports</h1>
+            <p class="brand-sub">Daily &amp; monthly overview</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="report-section">
+        <div class="rs-head">
+          <span class="rs-icon rs-red"><span class="ms">cancel</span></span>
+          <h3 class="rs-title">Today's Absentees</h3>
+        </div>
+        <div id="absent-list" class="report-list"></div>
+        <button class="whatsapp-btn" id="whatsapp-btn" hidden>
+          <span class="ms">chat</span> Send to WhatsApp Group
+        </button>
+      </div>
+
+      <div class="report-section">
+        <div class="rs-head">
+          <span class="rs-icon rs-amber"><span class="ms">account_balance_wallet</span></span>
+          <h3 class="rs-title">Unpaid This Month</h3>
+        </div>
+        <div id="unpaid-list" class="report-list"></div>
+      </div>
+
+      <div class="report-section">
+        <div class="rs-head">
+          <span class="rs-icon rs-primary"><span class="ms">event_repeat</span></span>
+          <h3 class="rs-title">Monthly Fee Reset</h3>
+        </div>
+        <p class="rs-desc">Resets all fees to "Not Paid" on the selected day each month.</p>
+        <div class="reset-row">
+          <label class="reset-label">Reset on day:</label>
+          <select id="reset-day-select" class="reset-select"></select>
+        </div>
+        <button class="reset-now-btn" id="reset-now-btn">
+          <span class="ms">restart_alt</span> Reset Now
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="nav-item active" data-tab="tab-home">
+        <span class="nav-icon"><span class="ms">home</span></span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" data-tab="tab-attendance">
+        <span class="nav-icon"><span class="ms">fact_check</span></span>
+        <span class="nav-label">Attendance</span>
+      </button>
+      <button class="nav-item" data-tab="tab-students">
+        <span class="nav-icon"><span class="ms">group</span></span>
+        <span class="nav-label">Students</span>
+      </button>
+      <button class="nav-item" data-tab="tab-fees">
+        <span class="nav-icon"><span class="ms">summarize</span></span>
+        <span class="nav-label">Reports</span>
+      </button>
+    </nav>
+
+    <!-- ===== STUDENT DETAIL BOTTOM SHEET ===== -->
+    <div class="sheet-scrim" id="detail-scrim">
+      <div class="sheet" id="detail-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <span class="sheet-avatar" id="sheet-avatar"></span>
+          <div class="sheet-header-text">
+            <div class="sheet-name" id="sheet-name"></div>
+            <div class="sheet-sub" id="sheet-sub"></div>
+          </div>
+          <button class="sheet-close-btn" id="detail-close" aria-label="Close"><span class="ms">close</span></button>
+        </div>
+        <div class="sheet-stats" id="sheet-stats">
+          <div class="sheet-stat-card sheet-stat-present">
+            <div class="sheet-stat-value" id="sheet-present">—</div>
+            <div class="sheet-stat-label">Present</div>
+          </div>
+          <div class="sheet-stat-card sheet-stat-absent">
+            <div class="sheet-stat-value" id="sheet-absent">—</div>
+            <div class="sheet-stat-label">Absent</div>
+          </div>
+          <div class="sheet-stat-card sheet-stat-rate">
+            <div class="sheet-stat-value" id="sheet-rate">—</div>
+            <div class="sheet-stat-label">Rate</div>
+          </div>
+        </div>
+        <div class="sheet-body">
+          <div class="sheet-field">
+            <span class="sf-icon"><span class="ms">badge</span></span>
+            <div class="sf-text"><div class="sf-label">Class</div><div class="sf-value" id="sheet-class">—</div></div>
+          </div>
+          <div class="sheet-field">
+            <span class="sf-icon"><span class="ms">school</span></span>
+            <div class="sf-text"><div class="sf-label">School</div><div class="sf-value" id="sheet-school">—</div></div>
+          </div>
+          <a class="sheet-field sheet-field-link" id="sheet-phone-link" href="tel:" hidden>
+            <span class="sf-icon"><span class="ms">phone</span></span>
+            <div class="sf-text"><div class="sf-label">Phone</div><div class="sf-value" id="sheet-phone">—</div></div>
+            <span class="sf-arrow"><span class="ms">open_in_new</span></span>
+          </a>
+          <a class="sheet-field sheet-field-link" id="sheet-whatsapp-link" href="https://wa.me/" target="_blank" hidden>
+            <span class="sf-icon"><span class="ms">chat</span></span>
+            <div class="sf-text"><div class="sf-label">WhatsApp</div><div class="sf-value" id="sheet-whatsapp">—</div></div>
+            <span class="sf-arrow"><span class="ms">open_in_new</span></span>
+          </a>
+          <div class="sheet-field">
+            <span class="sf-icon"><span class="ms">event_repeat</span></span>
+            <div class="sf-text"><div class="sf-label">Fee Reset</div><div class="sf-value" id="sheet-reset-day">1st of each month</div></div>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <button class="sf-btn sf-btn-edit" id="sheet-edit-btn"><span class="ms">edit</span> Edit</button>
+          <button class="sf-btn sf-btn-delete" id="sheet-delete-btn"><span class="ms">delete</span> Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ADD/EDIT STUDENT FORM MODAL ===== -->
+    <div class="modal-scrim" id="form-modal">
+      <div class="modal-card form-card" role="dialog" aria-modal="true" aria-labelledby="form-title">
+        <h2 class="modal-title" id="form-title">Add Student</h2>
+        <div class="form-fields">
+          <div class="form-group">
+            <label class="form-label" for="form-name">Student name *</label>
+            <input type="text" id="form-name" class="form-input" placeholder="e.g. Aarav Sharma" maxlength="60" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-class">Class (grade)</label>
+            <input type="number" id="form-class" class="form-input" placeholder="e.g. 5" min="1" max="12" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-school">School name</label>
+            <input type="text" id="form-school" class="form-input" placeholder="e.g. DPS" maxlength="60" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-phone">Phone</label>
+            <input type="tel" id="form-phone" class="form-input" placeholder="e.g. +91 98765 43210" maxlength="20" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-whatsapp">WhatsApp</label>
+            <input type="tel" id="form-whatsapp" class="form-input" placeholder="e.g. +91 98765 43210" maxlength="20" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="form-btn form-cancel" id="form-cancel-btn">Cancel</button>
+          <button class="form-btn form-save" id="form-save-btn">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== UNSAVED CHANGES MODAL ===== -->
+    <div class="modal-scrim" id="confirm-modal">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-icon"><span class="ms">save</span></div>
+        <h2 class="modal-title" id="modal-title">Unsaved fee changes</h2>
+        <p class="modal-text" id="modal-text">You have unsaved fee changes.</p>
+        <div class="modal-actions">
+          <button class="modal-btn modal-save" id="modal-save-btn">Save &amp; continue</button>
+          <button class="modal-btn modal-discard" id="modal-discard-btn">Discard</button>
+          <button class="modal-btn modal-stay" id="modal-stay-btn">Stay</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
